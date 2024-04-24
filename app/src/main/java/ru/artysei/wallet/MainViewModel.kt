@@ -37,12 +37,19 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     var categories by mutableStateOf(listOf<Category>())
     var selectedCategory by mutableStateOf<Category?>(null)
+
     var objects by mutableStateOf(listOf<Object>())
+    var selectedObject by mutableStateOf<Object?>(null)
+
     var fields by mutableStateOf(listOf<Field>())
+    var values by mutableStateOf(listOf<Value>())
+
 
 
     private var objectCollector: Job? = null
     private var fieldCollector: Job? = null
+    private var valueCollector: Job? = null
+
 
 
     private val objectsFlow: Flow<List<Object>>
@@ -54,6 +61,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             return fieldDao.getFields(selectedCategory?.id ?: -1)
         }
 
+    private val valuesFlow: Flow<List<Value>>
+        get() {
+            return valueDao.getValues(selectedObject?.id ?: -1)
+        }
+
+    private val allValuesFlow: Flow<List<Value>>
+        get() {
+            return valueDao.getAllValues()
+        }
 
 
     init {
@@ -103,21 +119,103 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     }
 
-    fun selectCategory(category: Category)
-    {
+    fun editObject() {
+        viewModelScope.launch {
+            try {
+                selectedObject?.let { obj ->
+                    obj.objectName = newObject
+                    objectDao.updateObject(obj)
+                    for ((index, field) in fields.withIndex()) {
+                        val value = newValues.getOrNull(index) ?: ""
+                        val existingValue = valueDao.getValueByObjectIdAndFieldId(obj.id, field.id)
+                        if (existingValue != null) {
+                            existingValue.value = value
+                            valueDao.updateValue(existingValue)
+                        }
+                    }
+                    newObject = ""
+                    newValues = emptyList()
+                }
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error editing object with values:", e)
+            }
+        }
+    }
+
+    fun deleteObject(obj: Object) {
+        viewModelScope.launch {
+            try {
+                objectDao.deleteObject(obj)
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error deleting object:", e)
+            }
+        }
+    }
+
+    /*fun editObject() {
+        viewModelScope.launch {
+            try {
+                selectedObject?.let { obj ->
+                    obj.objectName = newObject
+                    objectDao.updateObject(obj)
+                    for ((index, field) in fields.withIndex()) {
+                        val value = newValues.getOrNull(index) ?: ""
+                        if (valueDao.getValueByObjectIdAndFieldId(obj.id, field.id) != null) {
+                            valueDao.updateValue(Value(objectId = obj.id, fieldId = field.id, value = value))
+                        } else {
+                            valueDao.addValue(Value(objectId = obj.id, fieldId = field.id, value = value))
+                        }
+                    }
+                    newObject = ""
+                    newValues = emptyList()
+                }
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error editing object with values:", e)
+            }
+        }*/
+
+    fun selectObject(thisObject: Object){
+        selectedObject = thisObject
+        newObject = selectedObject!!.objectName
+        viewModelScope.launch {
+            try {
+                valueCollector?.cancelAndJoin()
+            } catch (_: Throwable) {
+            }
+            valueCollector = launch {
+                valuesFlow.collect {
+                    values = it
+                    newValues = it.map { value -> value.value }
+                }
+            }
+
+        }
+
+    }
+
+    fun selectCategory(category: Category) {
         selectedCategory = category
         viewModelScope.launch {
             try {
                 objectCollector?.cancelAndJoin()
-            } catch (_:Throwable){ }
+            } catch (_: Throwable) {
+            }
             try {
                 fieldCollector?.cancelAndJoin()
-            } catch (_:Throwable){ }
+            } catch (_: Throwable) {
+            }
+            try {
+                valueCollector?.cancelAndJoin()
+            } catch (_: Throwable) {
+            }
             objectCollector = launch {
-                objectsFlow.collect {objects = it}
+                objectsFlow.collect { objects = it }
             }
             fieldCollector = launch {
-                fieldsFlow.collect {fields = it}
+                fieldsFlow.collect { fields = it }
+            }
+            valueCollector = launch {
+                allValuesFlow.collect{values = it}
             }
         }
     }

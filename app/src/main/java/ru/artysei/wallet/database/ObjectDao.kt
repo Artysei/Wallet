@@ -4,15 +4,19 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ObjectDao {
     @Insert(Object::class)
-    suspend fun addObject(objects: Object)
+    suspend fun addObject(obj: Object)
 
     @Delete(Object:: class)
-    suspend fun deleteObject(objects: Object)
+    suspend fun deleteObject(obj: Object)
+
+    @Update(Object::class)
+    suspend fun updateObject(obj: Object)
 
     @Query("SELECT * from OBJECT WHERE category_id = :categoryId")
     fun getObjects(categoryId: Int) : Flow<List<Object>>

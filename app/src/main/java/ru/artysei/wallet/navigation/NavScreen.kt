@@ -10,6 +10,7 @@ import ru.artysei.wallet.MainViewModel
 import ru.artysei.wallet.database.Category
 import ru.artysei.wallet.screens.AddCategoryScreen
 import ru.artysei.wallet.screens.AddObjectScreen
+import ru.artysei.wallet.screens.EditObjectScreen
 import ru.artysei.wallet.screens.MainScreen
 import ru.artysei.wallet.screens.ObjectScreen
 
@@ -45,7 +46,15 @@ fun NavScreen(
         }
         composable(Screen.OBJECT.route)
         {
-            ObjectScreen(navController = navController, objects = mvm.objects)
+            ObjectScreen(
+                navController,
+                modifier,
+                mvm.objects,
+                mvm.fields,
+                mvm.values,
+                mvm::selectObject,
+                mvm::deleteObject
+            )
         }
         composable(Screen.ADD_OBJECT.route){
             AddObjectScreen(
@@ -59,6 +68,19 @@ fun NavScreen(
                 mvm::addObject
             )
 
+        }
+
+        composable(Screen.EDIT_OBJECT.route){
+            EditObjectScreen(
+                navController,
+                mvm.selectedObject,
+                mvm.newObject,
+                {mvm.newObject = it},
+                mvm.newValues,
+                {mvm.newValues = it},
+                mvm.fields,
+                mvm::editObject
+            )
         }
     }
 }

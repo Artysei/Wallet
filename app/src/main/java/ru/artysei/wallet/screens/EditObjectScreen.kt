@@ -13,20 +13,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.artysei.wallet.database.Category
 import ru.artysei.wallet.database.Field
+import ru.artysei.wallet.database.Object
+import ru.artysei.wallet.database.Value
 import ru.artysei.wallet.navigation.Screen
 
 @Composable
-fun AddObjectScreen(
+fun EditObjectScreen(
     navController: NavController,
-    selectedCategory: Category?,
+    selectedObject: Object?,
     newObjectName: String,
     onNewObjectNameChange: (String) -> Unit = {},
     newValues: List<String>,
     onNewValuesChange: (List<String>) -> Unit = {},
     fields: List<Field>,
-    onAddObject: () -> Unit = {}
+    onEditObject: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -34,7 +35,7 @@ fun AddObjectScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (selectedCategory != null) {
+        if (selectedObject != null) {
             TextField(
                 value = newObjectName,
                 onValueChange = onNewObjectNameChange,
@@ -59,15 +60,14 @@ fun AddObjectScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
             Button(
                 onClick = {
-                    onAddObject()
+                    onEditObject()
                     navController.navigate(Screen.MAIN.route)
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text("Добавить объект")
+                Text("Редактировать объект")
             }
         }
     }
