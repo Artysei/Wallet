@@ -7,9 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.artysei.wallet.MainViewModel
-import ru.artysei.wallet.database.Category
+import ru.artysei.wallet.database.entity.Category
 import ru.artysei.wallet.screens.AddCategoryScreen
 import ru.artysei.wallet.screens.AddObjectScreen
+import ru.artysei.wallet.screens.EditCategoryScreen
 import ru.artysei.wallet.screens.EditObjectScreen
 import ru.artysei.wallet.screens.MainScreen
 import ru.artysei.wallet.screens.ObjectScreen
@@ -31,7 +32,8 @@ fun NavScreen(
             MainScreen(navController,
                 modifier,
                 categories,
-                mvm::selectCategory
+                mvm::selectCategory,
+                mvm::deleteCategory
             )
         }
         composable(Screen.ADD_CATEGORY.route)
@@ -43,6 +45,19 @@ fun NavScreen(
                 { mvm.newFields = it},
                 mvm::addCategory
             )
+        }
+        composable(Screen.EDIT_CATEGORY.route){
+            EditCategoryScreen(
+               navController,
+                mvm.selectedCategory,
+                mvm.newCategory,
+                {mvm.newCategory = it},
+                mvm.newFields,
+                { mvm.newFields = it},
+                mvm::editCategory
+
+            )
+
         }
         composable(Screen.OBJECT.route)
         {
@@ -83,10 +98,4 @@ fun NavScreen(
             )
         }
     }
-}
-
-@Composable
-fun Screen1()
-{
-    Text(text = "fsdfsdfsdfsdfsdfsd")
 }

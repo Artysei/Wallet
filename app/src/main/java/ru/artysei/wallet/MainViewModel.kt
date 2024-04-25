@@ -8,15 +8,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import ru.artysei.wallet.database.Category
-import ru.artysei.wallet.database.Field
-import ru.artysei.wallet.database.Object
-import ru.artysei.wallet.database.Value
+import ru.artysei.wallet.database.entity.Category
+import ru.artysei.wallet.database.entity.Field
+import ru.artysei.wallet.database.entity.Object
+import ru.artysei.wallet.database.entity.Value
 import ru.artysei.wallet.database.WalletDatabase
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
@@ -98,8 +97,40 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     }
 
-    fun addObject()
-    {
+    fun editCategory() {
+        viewModelScope.launch {
+            try {
+                selectedCategory?.let { category ->
+                    category.categoryName = newCategory
+                    categoryDao.updateCategory(category)
+                    val categoryId = category.id
+                    fieldDao.deleteFieldsByCategoryId(categoryId)
+                    for (fieldName in newFields) {
+                        fieldDao.addField(Field(categoryId = categoryId, fieldName = fieldName))
+                    }
+
+                    newCategory = ""
+                    newFields = emptyList()
+                }
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error editing category with fields:", e)
+            }
+        }
+    }
+
+    fun deleteCategory(category: Category) {
+        viewModelScope.launch {
+            try {
+                categoryDao.deleteCategory(category)
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error deleting Category:", e)
+            }
+        }
+    }
+
+
+
+    fun addObject() {
         viewModelScope.launch {
             try {
                 val categoryId = selectedCategory!!.id
@@ -128,10 +159,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     for ((index, field) in fields.withIndex()) {
                         val value = newValues.getOrNull(index) ?: ""
                         val existingValue = valueDao.getValueByObjectIdAndFieldId(obj.id, field.id)
+                        Log.e("MainViewModel", "fields: $existingValue")
                         if (existingValue != null) {
                             existingValue.value = value
                             valueDao.updateValue(existingValue)
                         }
+                        else valueDao.addValue(Value(objectId = obj.id, fieldId = field.id, value = value))
                     }
                     newObject = ""
                     newValues = emptyList()
@@ -195,6 +228,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun selectCategory(category: Category) {
         selectedCategory = category
+        newCategory = selectedCategory!!.categoryName
         viewModelScope.launch {
             try {
                 objectCollector?.cancelAndJoin()
@@ -212,7 +246,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 objectsFlow.collect { objects = it }
             }
             fieldCollector = launch {
-                fieldsFlow.collect { fields = it }
+                fieldsFlow.collect { fields = it
+                    newFields = it.map { field -> field.fieldName}
+                }
             }
             valueCollector = launch {
                 allValuesFlow.collect{values = it}

@@ -1,10 +1,12 @@
-package ru.artysei.wallet.database
+package ru.artysei.wallet.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import ru.artysei.wallet.database.entity.Category
 
 @Dao
 interface CategoryDao {
@@ -13,6 +15,8 @@ interface CategoryDao {
 
     @Delete(Category:: class)
     suspend fun deleteCategory(category: Category)
+    @Update(Category:: class)
+    suspend fun updateCategory(category: Category)
 
     @Query("Select * from CATEGORY")
     fun getAllCategories(): Flow<List<Category>>

@@ -1,9 +1,11 @@
-package ru.artysei.wallet.database
+package ru.artysei.wallet.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import ru.artysei.wallet.database.entity.Field
+import ru.artysei.wallet.database.entity.Object
 
 @Entity(tableName = "VALUE", foreignKeys = [
     ForeignKey(

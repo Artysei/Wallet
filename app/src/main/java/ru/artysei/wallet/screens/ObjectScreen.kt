@@ -2,7 +2,6 @@ package ru.artysei.wallet.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,16 +18,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.artysei.wallet.database.Field
-import ru.artysei.wallet.database.Object
-import ru.artysei.wallet.database.Value
+import ru.artysei.wallet.database.entity.Field
+import ru.artysei.wallet.database.entity.Object
+import ru.artysei.wallet.database.entity.Value
 import ru.artysei.wallet.navigation.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -40,7 +38,7 @@ fun ObjectScreen(
     fields: List<Field>,
     values: List<Value>,
     onSelectObject: (Object) -> Unit = {},
-    onDeleteObject: (Object) -> Unit = {} // Добавляем параметр для обработки нажатия кнопки удаления
+    onDeleteObject: (Object) -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier.padding(bottom = 50.dp),
@@ -58,7 +56,7 @@ fun ObjectScreen(
                 .padding(5.dp)) {
                 LazyColumn{
                     items(objects){
-                        ObjectCard(navController, it, values, fields, onSelectObject, onDeleteObject) // Передаем функцию onDeleteObject
+                        ObjectCard(navController, it, values, fields, onSelectObject, onDeleteObject)
                     }
                 }
             }
@@ -66,7 +64,6 @@ fun ObjectScreen(
     )
 }
 
-// В ObjectCard
 
 @Composable
 fun ObjectCard(
@@ -75,7 +72,7 @@ fun ObjectCard(
     values: List<Value>,
     fields: List<Field>,
     onSelect: (Object) -> Unit,
-    onDelete: (Object) -> Unit // Добавляем параметр для обработки нажатия кнопки удаления
+    onDelete: (Object) -> Unit
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -97,7 +94,6 @@ fun ObjectCard(
                     Text(text = value)
                 }
             }
-            // Добавляем кнопку для удаления объекта
             IconButton(onClick = { onDelete(obj) }) {
                 Icon(
                     Icons.Default.Delete,
@@ -105,8 +101,6 @@ fun ObjectCard(
                     tint = Color.Red
                 )
             }
-
-
         }
     }
 }

@@ -1,4 +1,4 @@
-package ru.artysei.wallet.database
+package ru.artysei.wallet.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

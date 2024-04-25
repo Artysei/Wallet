@@ -13,9 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.artysei.wallet.database.Field
-import ru.artysei.wallet.database.Object
-import ru.artysei.wallet.database.Value
+import ru.artysei.wallet.database.entity.Field
+import ru.artysei.wallet.database.entity.Object
 import ru.artysei.wallet.navigation.Screen
 
 @Composable

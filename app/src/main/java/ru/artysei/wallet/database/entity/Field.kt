@@ -1,11 +1,12 @@
-package ru.artysei.wallet.database
+package ru.artysei.wallet.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import ru.artysei.wallet.database.entity.Category
 
-@Entity(tableName = "OBJECT", foreignKeys = [
+@Entity(tableName = "FIELD", foreignKeys = [
     ForeignKey(
         entity = Category::class,
         parentColumns = ["id"],
@@ -14,13 +15,13 @@ import androidx.room.PrimaryKey
         onUpdate = ForeignKey.CASCADE,
     )
 ])
-data class Object(
+data class Field(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
 
     @ColumnInfo(name = "category_id")
     var categoryId: Int = 0,
 
-    @ColumnInfo(name = "object_name")
-    var objectName: String = "",
+    @ColumnInfo(name = "field_name")
+    var fieldName: String = "",
 )

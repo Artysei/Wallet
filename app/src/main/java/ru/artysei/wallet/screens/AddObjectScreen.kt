@@ -13,9 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.artysei.wallet.database.Category
-import ru.artysei.wallet.database.Field
-import ru.artysei.wallet.navigation.Screen
+import ru.artysei.wallet.database.entity.Category
+import ru.artysei.wallet.database.entity.Field
 
 @Composable
 fun AddObjectScreen(
@@ -63,7 +62,7 @@ fun AddObjectScreen(
             Button(
                 onClick = {
                     onAddObject()
-                    navController.navigate(Screen.MAIN.route)
+                    navController.popBackStack()
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {
