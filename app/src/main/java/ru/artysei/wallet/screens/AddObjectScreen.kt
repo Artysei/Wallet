@@ -21,6 +21,7 @@ import ru.artysei.wallet.database.entity.Field
 @Composable
 fun AddObjectScreen(
     navController: NavController,
+    modifier: Modifier = Modifier,
     selectedCategory: Category?,
     newObjectName: String,
     onNewObjectNameChange: (String) -> Unit = {},
@@ -30,7 +31,7 @@ fun AddObjectScreen(
     onAddObject: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)

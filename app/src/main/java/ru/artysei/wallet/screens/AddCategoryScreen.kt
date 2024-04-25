@@ -24,6 +24,7 @@ import ru.artysei.wallet.R
 @Composable
 fun AddCategoryScreen(
     navController: NavController,
+    modifier: Modifier = Modifier,
     newCategory: String,
     onNewCategoryChange: (String) -> Unit = {},
     newFields: List<String>,
@@ -31,7 +32,7 @@ fun AddCategoryScreen(
     onAddCategory: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)

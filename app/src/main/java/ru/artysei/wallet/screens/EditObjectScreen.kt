@@ -22,6 +22,7 @@ import ru.artysei.wallet.navigation.Screen
 @Composable
 fun EditObjectScreen(
     navController: NavController,
+    modifier: Modifier = Modifier,
     selectedObject: Object?,
     newObjectName: String,
     onNewObjectNameChange: (String) -> Unit = {},
@@ -31,7 +32,7 @@ fun EditObjectScreen(
     onEditObject: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)

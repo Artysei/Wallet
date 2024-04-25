@@ -10,4 +10,10 @@
     <string name="add_object">Добавить объект</string>
     <string name="save_changes">Сохранить изменения</string>
     <string name="edit_object">Редактировать объект</string>
+    <string name="title_add_category">Добавить категорию</string>
+    <string name="title_edit_category">Редактирование категории</string>
+    <string name="title_object">Объекты</string>
+    <string name="title_add_object">Добавить объект</string>
+    <string name="title_edit_object">Редактирование объекта</string>
+    <string name="title_main">Основная страница</string>
 </resources>

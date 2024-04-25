@@ -25,6 +25,7 @@ import ru.artysei.wallet.database.entity.Category
 @Composable
 fun EditCategoryScreen(
     navController: NavController,
+    modifier: Modifier = Modifier,
     selectedCategory: Category?,
     newCategory: String,
     onNewCategoryChange: (String) -> Unit = {},
@@ -33,7 +34,7 @@ fun EditCategoryScreen(
     onEditCategory: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
