@@ -11,8 +11,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.artysei.wallet.R
 import ru.artysei.wallet.database.entity.Category
 import ru.artysei.wallet.database.entity.Field
 
@@ -37,7 +39,7 @@ fun AddObjectScreen(
             TextField(
                 value = newObjectName,
                 onValueChange = onNewObjectNameChange,
-                label = { Text("Название объекта") },
+                label = { Text(stringResource(R.string.object_name)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -54,7 +56,7 @@ fun AddObjectScreen(
                         }
                         onNewValuesChange(updatedValues)
                     },
-                    label = { Text("Значение для ${field.fieldName}") },
+                    label = { Text(stringResource(R.string.value_for, field.fieldName)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -66,7 +68,7 @@ fun AddObjectScreen(
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text("Добавить объект")
+                Text(stringResource(R.string.add_object))
             }
         }
     }

@@ -14,15 +14,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.artysei.wallet.navigation.Screen
+import ru.artysei.wallet.R
 
 @Composable
 fun AddCategoryScreen(
@@ -42,7 +39,7 @@ fun AddCategoryScreen(
         TextField(
             value = newCategory,
             onValueChange = onNewCategoryChange,
-            label = { Text("Название категории") },
+            label = { Text(stringResource(R.string.category_name)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -57,7 +54,7 @@ fun AddCategoryScreen(
                         val updatedFields = newFields.toMutableList().also { it[index] = newValue }
                         onNewFieldsChange(updatedFields)
                     },
-                    label = { Text("Поле ${index + 1}") },
+                    label = { Text(stringResource(R.string.field, index + 1)) },
                     modifier = Modifier.weight(1f)
                 )
 
@@ -67,7 +64,7 @@ fun AddCategoryScreen(
                         onNewFieldsChange(updatedFields)
                     }
                 ) {
-                    Icon(Icons.Filled.Delete, contentDescription = "Удалить поле")
+                    Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.delete_field))
                 }
             }
         }
@@ -79,7 +76,7 @@ fun AddCategoryScreen(
             },
             modifier = Modifier.align(Alignment.End)
         ) {
-            Text("Добавить поле")
+            Text(stringResource(R.string.add_field))
         }
 
         Button(
@@ -89,7 +86,7 @@ fun AddCategoryScreen(
             },
             modifier = Modifier.align(Alignment.End)
         ) {
-            Text("Добавить категорию")
+            Text(stringResource(R.string.add_category))
         }
     }
 }

@@ -16,8 +16,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.artysei.wallet.R
 import ru.artysei.wallet.database.entity.Category
 
 @Composable
@@ -40,7 +42,7 @@ fun EditCategoryScreen(
             TextField(
                 value = newCategory,
                 onValueChange = onNewCategoryChange,
-                label = { Text("Название категории") },
+                label = { Text(stringResource(R.string.category_name)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -56,7 +58,7 @@ fun EditCategoryScreen(
                                 newFields.toMutableList().also { it[index] = newValue }
                             onNewFieldsChange(updatedFields)
                         },
-                        label = { Text("Поле ${index + 1}") },
+                        label = { Text(stringResource(R.string.field, index + 1)) },
                         modifier = Modifier.weight(1f)
                     )
 
@@ -67,7 +69,7 @@ fun EditCategoryScreen(
                             onNewFieldsChange(updatedFields)
                         }
                     ) {
-                        Icon(Icons.Filled.Delete, contentDescription = "Удалить поле")
+                        Icon(Icons.Filled.Delete, contentDescription = "Delete")
                     }
                 }
             }
@@ -79,7 +81,7 @@ fun EditCategoryScreen(
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text("Добавить поле")
+                Text(stringResource(R.string.add_object))
             }
 
             Button(
@@ -89,7 +91,7 @@ fun EditCategoryScreen(
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text("Сохранить изменения")
+                Text(stringResource(R.string.save_changes))
             }
         }
     }

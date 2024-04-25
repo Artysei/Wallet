@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Wallet</string>
+    <string name="category_name">Название категории</string>
+    <string name="field">Поле %1$s</string>
+    <string name="delete_field">Удалить поле</string>
+    <string name="add_field">Добавить поле</string>
+    <string name="add_category">Добавить категорию</string>
+    <string name="object_name">Название объекта</string>
+    <string name="value_for">Значение для %1$s</string>
+    <string name="add_object">Добавить объект</string>
+    <string name="save_changes">Сохранить изменения</string>
+    <string name="edit_object">Редактировать объект</string>
 </resources>
