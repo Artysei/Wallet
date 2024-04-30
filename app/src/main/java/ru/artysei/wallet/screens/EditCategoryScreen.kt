@@ -27,10 +27,10 @@ fun EditCategoryScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     selectedCategory: Category?,
-    newCategory: String,
-    onNewCategoryChange: (String) -> Unit = {},
-    newFields: List<String>,
-    onNewFieldsChange: (List<String>) -> Unit = {},
+    changeCategory: String,
+    onCategoryChange: (String) -> Unit = {},
+    changeFields: List<String>,
+    onFieldsChange: (List<String>) -> Unit = {},
     onEditCategory: () -> Unit = {}
 ) {
     Column(
@@ -41,13 +41,13 @@ fun EditCategoryScreen(
     ) {
         if (selectedCategory != null) {
             TextField(
-                value = newCategory,
-                onValueChange = onNewCategoryChange,
+                value = changeCategory,
+                onValueChange = onCategoryChange,
                 label = { Text(stringResource(R.string.category_name)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
-            newFields.forEachIndexed { index, fieldName ->
+            changeFields.forEachIndexed { index, fieldName ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
@@ -56,8 +56,8 @@ fun EditCategoryScreen(
                         value = fieldName,
                         onValueChange = { newValue ->
                             val updatedFields =
-                                newFields.toMutableList().also { it[index] = newValue }
-                            onNewFieldsChange(updatedFields)
+                                changeFields.toMutableList().also { it[index] = newValue }
+                            onFieldsChange(updatedFields)
                         },
                         label = { Text(stringResource(R.string.field, index + 1)) },
                         modifier = Modifier.weight(1f)
@@ -66,8 +66,8 @@ fun EditCategoryScreen(
                     IconButton(
                         onClick = {
                             val updatedFields =
-                                newFields.toMutableList().also { it.removeAt(index) }
-                            onNewFieldsChange(updatedFields)
+                                changeFields.toMutableList().also { it.removeAt(index) }
+                            onFieldsChange(updatedFields)
                         }
                     ) {
                         Icon(Icons.Filled.Delete, contentDescription = "Delete")
@@ -77,18 +77,21 @@ fun EditCategoryScreen(
 
             Button(
                 onClick = {
-                    val updatedFields = newFields.toMutableList() + ""
-                    onNewFieldsChange(updatedFields)
+                    val updatedFields = changeFields.toMutableList() + ""
+                    onFieldsChange(updatedFields)
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text(stringResource(R.string.add_object))
+                Text(stringResource(R.string.add_field))
             }
 
             Button(
                 onClick = {
-                    onEditCategory()
-                    navController.popBackStack()
+                    if (changeCategory.isNotBlank() && changeFields.all { it.isNotBlank() }){
+                        onEditCategory()
+                        navController.popBackStack()
+
+                    }
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {

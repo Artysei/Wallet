@@ -1,5 +1,6 @@
 package ru.artysei.wallet.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -82,8 +83,10 @@ fun AddCategoryScreen(
 
         Button(
             onClick = {
-                onAddCategory()
-                navController.popBackStack()
+                if (newCategory.isNotBlank() && newFields.all { it.isNotBlank() }) {
+                    onAddCategory()
+                    navController.popBackStack()
+                }
             },
             modifier = Modifier.align(Alignment.End)
         ) {

@@ -24,10 +24,10 @@ fun EditObjectScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     selectedObject: Object?,
-    newObjectName: String,
-    onNewObjectNameChange: (String) -> Unit = {},
-    newValues: List<String>,
-    onNewValuesChange: (List<String>) -> Unit = {},
+    changeObjectName: String,
+    onObjectNameChange: (String) -> Unit = {},
+    changeValues: List<String>,
+    onChangeValuesChange: (List<String>) -> Unit = {},
     fields: List<Field>,
     onEditObject: () -> Unit = {}
 ) {
@@ -39,24 +39,24 @@ fun EditObjectScreen(
     ) {
         if (selectedObject != null) {
             TextField(
-                value = newObjectName,
-                onValueChange = onNewObjectNameChange,
+                value = changeObjectName,
+                onValueChange = onObjectNameChange,
                 label = { Text(stringResource(R.string.object_name))},
                 modifier = Modifier.fillMaxWidth()
             )
 
             fields.forEachIndexed { index, field ->
-                val value = if (index < newValues.size) newValues[index] else ""
+                val value = if (index < changeValues.size) changeValues[index] else ""
                 TextField(
                     value = value,
                     onValueChange = { newValue ->
-                        val updatedValues = newValues.toMutableList()
+                        val updatedValues = changeValues.toMutableList()
                         if (index < updatedValues.size) {
                             updatedValues[index] = newValue
                         } else {
                             updatedValues.add(newValue)
                         }
-                        onNewValuesChange(updatedValues)
+                        onChangeValuesChange(updatedValues)
                     },
                     label = { Text(stringResource(R.string.value_for, field.fieldName)) },
                     modifier = Modifier.fillMaxWidth()
@@ -64,8 +64,11 @@ fun EditObjectScreen(
             }
             Button(
                 onClick = {
-                    onEditObject()
-                    navController.navigate(Screen.MAIN.route)
+                    if (changeObjectName.isNotBlank() && changeValues.all { it.isNotBlank() }) {
+                        onEditObject()
+                        navController.navigate(Screen.MAIN.route)
+                    }
+
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {

@@ -63,12 +63,18 @@ class MainActivity : ComponentActivity() {
                     objects = mvm.objects,
                     fields = mvm.fields,
                     values = mvm.values,
+
                     onSelectCategory = mvm::selectCategory,
                     selectedCategory = mvm.selectedCategory,
                     newCategory =mvm.newCategory,
                     onNewCategoryChange = {mvm.newCategory = it},
                     newFields = mvm.newFields,
                     onNewFieldsChange ={mvm.newFields = it},
+                    changeCategory = mvm.changeCategory,
+                    onCategoryChange ={mvm.changeCategory = it},
+                    changeFields = mvm.changeFields,
+                    onFieldsChange = {mvm.changeFields = it},
+
                     onAddCategory = mvm::addCategory,
                     onEditCategory = mvm::editCategory,
                     onDeleteCategory = mvm::deleteCategory,
@@ -79,6 +85,10 @@ class MainActivity : ComponentActivity() {
                     onNewObjectNameChange = {mvm.newObject = it},
                     newValues = mvm.newValues,
                     onNewValuesChange = {mvm.newValues = it},
+                    changeObjectName = mvm.changeObject,
+                    onObjectNameChange = {mvm.changeObject = it},
+                    changeValues = mvm.changeValues,
+                    onValuesChange = {mvm.changeValues = it},
                     onAddObject = mvm::addObject,
                     onEditObject = mvm::editObject,
                     onDeleteObject = mvm::deleteObject,
@@ -88,4 +98,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

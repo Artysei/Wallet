@@ -64,8 +64,10 @@ fun AddObjectScreen(
 
             Button(
                 onClick = {
-                    onAddObject()
-                    navController.popBackStack()
+                    if (newObjectName.isNotBlank() && newValues.any { it.isNotBlank() }) {
+                        onAddObject()
+                        navController.popBackStack()
+                    }
                 },
                 modifier = Modifier.align(Alignment.End)
             ) {

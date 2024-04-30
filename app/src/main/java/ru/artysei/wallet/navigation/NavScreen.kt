@@ -27,20 +27,36 @@ fun NavScreen(
 
     onSelectCategory: (Category) ->Unit = {},
     selectedCategory: Category?,
+
     newCategory: String,
     onNewCategoryChange: (String) -> Unit = {},
     newFields: List<String>,
     onNewFieldsChange: (List<String>) -> Unit = {},
+
+    changeCategory: String,
+    onCategoryChange: (String) -> Unit = {},
+    changeFields: List<String>,
+    onFieldsChange: (List<String>) -> Unit = {},
+
     onAddCategory: () -> Unit = {},
     onEditCategory: () -> Unit = {},
     onDeleteCategory: (Category) -> Unit = {},
 
+
+
     onSelectObject: (Object) -> Unit = {},
     selectedObject: Object?,
+
     newObject: String,
     onNewObjectNameChange: (String) -> Unit = {},
     newValues: List<String>,
     onNewValuesChange: (List<String>) -> Unit = {},
+
+    changeObjectName: String,
+    onObjectNameChange: (String) -> Unit = {},
+    changeValues: List<String>,
+    onValuesChange: (List<String>) -> Unit = {},
+
     onAddObject: () -> Unit = {},
     onEditObject: () -> Unit = {},
     onDeleteObject: (Object) -> Unit = {}
@@ -74,13 +90,13 @@ fun NavScreen(
         }
         composable(Screen.EDIT_CATEGORY.route){
             EditCategoryScreen(
-               navController,
+                navController,
                 modifier,
                 selectedCategory,
-                newCategory,
-                onNewCategoryChange,
-                newFields,
-                onNewFieldsChange,
+                changeCategory,
+                onCategoryChange,
+                changeFields,
+                onFieldsChange,
                 onEditCategory
 
             )
@@ -118,10 +134,10 @@ fun NavScreen(
                 navController,
                 modifier,
                 selectedObject,
-                newObject,
-                onNewObjectNameChange,
-                newValues,
-                onNewValuesChange,
+                changeObjectName,
+                onObjectNameChange,
+                changeValues,
+                onValuesChange,
                 fields,
                 onEditObject
             )
